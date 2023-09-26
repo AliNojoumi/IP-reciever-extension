@@ -30,7 +30,28 @@ function App() {
           <TbMapPinCode />
         </div>
       </div>
-      <div className={style["info-container"]}></div>
+      <div className={style["info-container"]}>
+        <div className={style["text-container-bordered"]}>
+          <p className={style["p"]}>IP :</p>
+          <p className={style["p-fetched"]}>{fetchIpData.ip}</p>
+        </div>
+        <div className={style["text-container"]}>
+          <p className={style["p"]}>Country : </p>
+          <p className={style["p-fetched"]}>{fetchIpData.country}</p>
+        </div>
+        <div className={style["text-container"]}>
+          <p className={style["p"]}>City : </p>
+          <p className={style["p-fetched"]}>{fetchIpData.city}</p>
+        </div>
+        <div className={style["text-container"]}>
+          <p className={style["p"]}>Region : </p>
+          <p className={style["p-fetched"]}>{fetchIpData.region}</p>
+        </div>
+        <div className={style["text-container"]}>
+          <p className={style["p"]}>Timezone : </p>
+          <p className={style["p-fetched"]}>{fetchIpData.timezone}</p>
+        </div>
+      </div>
     </section>
   );
 }
