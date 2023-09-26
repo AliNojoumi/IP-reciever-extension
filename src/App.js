@@ -1,9 +1,10 @@
 import { useState, useEffect, useReducer } from "react";
 import style from "./App.module.css";
-import { TbMapPinCode, TbMapPinExclamation } from "react-icons/tb";
+import { TbMapPinCode, TbMapPinExclamation, TbCopy, TbSquareCheck } from "react-icons/tb";
 
 function App() {
   const [fetchIpData, fetchIpDataHandler] = useState({});
+  const [isCoppied, isCoppiedHandler] = useState(false);
   const [fetchingDataState, dispatch] = useReducer(
     (state, action) => {
       switch (action.type) {
@@ -47,8 +48,23 @@ function App() {
       </div>
       <div className={style["info-container"]}>
         <div className={style["text-container-bordered"]}>
-          <p className={style["p"]}>IP :</p>
-          <p className={style["p-fetched"]}>{fetchIpData.ip}</p>
+          <div className={style["ip-text"]}>
+            <p className={style["p"]}>IP : </p>
+            <p className={style["p-fetched"]}>{fetchIpData.ip}</p>
+          </div>
+          <div
+            className={style["copy-icon"]}
+            onClick={() => {
+              isCoppiedHandler(false);
+              navigator.clipboard.writeText(fetchIpData.ip);
+              isCoppiedHandler(true);
+              setTimeout(() => {
+                isCoppiedHandler(false);
+              }, 1000);
+            }}
+          >
+            {!isCoppied ? <TbCopy /> : <TbSquareCheck />}
+          </div>
         </div>
         <div className={style["text-container"]}>
           <p className={style["p"]}>Country : </p>
