@@ -1,21 +1,36 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useReducer } from "react";
 import style from "./App.module.css";
-import { TbMapPinCode } from "react-icons/tb";
+import { TbMapPinCode, TbMapPinExclamation } from "react-icons/tb";
 
 function App() {
   const [fetchIpData, fetchIpDataHandler] = useState({});
+  const [fetchingDataState, dispatch] = useReducer(
+    (state, action) => {
+      switch (action.type) {
+        case "Fetching":
+          return { initialState: false };
+        case "Fetched":
+          return { initialState: true };
+        default:
+          return state;
+      }
+    },
+    { initialState: true }
+  );
 
   function fetchIpFunction() {
+    dispatch({ type: "Fetching" });
     try {
       fetch(`https://ipinfo.io?token=54e3c02870b938`)
         .then((response) => response.json())
         .then((data) => {
           fetchIpDataHandler(data);
-          console.log(data);
+          dispatch({ type: "Fetched" });
         })
         .catch((error) => console.error(error));
     } catch (error) {
       console.error(error);
+      dispatch({ type: "Fetching" });
     }
   }
 
@@ -26,8 +41,8 @@ function App() {
   return (
     <section className={style["container"]}>
       <div className={style["icon-container"]}>
-        <div className={style["icon"]}>
-          <TbMapPinCode />
+        <div className={fetchingDataState.initialState ? style["icon"] : style["loading-icon"]}>
+          {fetchingDataState.initialState ? <TbMapPinCode /> : <TbMapPinExclamation />}
         </div>
       </div>
       <div className={style["info-container"]}>
